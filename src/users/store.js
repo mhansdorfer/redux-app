@@ -26,7 +26,6 @@ const fetchUsers = (fetchSucceded) => {
         dispatch(fetchRequested());
         axios.get("https://randomuser.me/api?results=10")
         .then((response) => {
-            console.log(`results: ${JSON.stringify(response.data.results)}`);
             dispatch(fetchSucceded(response.data.results));
         })
         .catch(error => {

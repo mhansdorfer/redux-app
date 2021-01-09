@@ -1,10 +1,15 @@
 import { connect } from 'react-redux';
 import UsersList from '../components/UsersList';
 import {loadUsers, resetUsers, addUser} from '../store';
+import { useEffect } from 'react';
 
 function Users(props){
-    const {isLoading, isError, usersList, error} = props;
+    const {isLoading, isError, usersList, error, loadUsers} = props;
 
+    useEffect(() => {
+        if(!usersList || usersList.length === 0) loadUsers();
+    }, []);
+    
     return (
         <div>
             <h2>Users:</h2>
@@ -32,7 +37,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapDispatchToProps
 )(Users);
 //TODO: Mock Service Worker: https://mswjs.io/

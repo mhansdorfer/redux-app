@@ -17,8 +17,20 @@ import { Provider } from 'react-redux'
 import rootReducer from './rootReducer';
 import thunk from 'redux-thunk';
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+import {persistStore, persistReducer} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
 
+
+const persistConfig = {
+  key: 'root',
+  storage
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer, applyMiddleware(thunk));
+const persistor = persistStore(store);
 
 function App() {
   return (
@@ -33,14 +45,16 @@ function App() {
           </Col>
           <Col>
             <Provider store={store}>
-              <Switch>
-                <Route path="/" exact>
-                  <Home />
-                </Route>
-                <Route>
-                  <Users />
-                </Route>
-              </Switch>
+              <PersistGate loading={null} persistor={persistor}>
+                <Switch>
+                  <Route path="/" exact>
+                    <Home />
+                  </Route>
+                  <Route>
+                    <Users />
+                  </Route>
+                </Switch>
+              </PersistGate>
             </Provider>
           </Col>
         </Row>
