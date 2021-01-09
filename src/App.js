@@ -4,12 +4,21 @@ import {
   Switch, 
   BrowserRouter as Router 
 } from "react-router-dom";
-import Home from "./components/Home";
-import Users from "./components/Users";
+import Home from "./users/containers/Home";
+import Users from "./users/containers/Users";
 import React from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
+import { createStore, applyMiddleware } from 'redux';
+
+import { Provider } from 'react-redux'
+import rootReducer from './rootReducer';
+import thunk from 'redux-thunk';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
 
 function App() {
   return (
@@ -23,14 +32,16 @@ function App() {
             </ul>
           </Col>
           <Col>
-            <Switch>
-              <Route path="/" exact>
-                <Home />
-              </Route>
-              <Route>
-                    <Users />
-              </Route>
-            </Switch>
+            <Provider store={store}>
+              <Switch>
+                <Route path="/" exact>
+                  <Home />
+                </Route>
+                <Route>
+                  <Users />
+                </Route>
+              </Switch>
+            </Provider>
           </Col>
         </Row>
       </Container>
