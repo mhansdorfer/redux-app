@@ -1,15 +1,11 @@
-import { 
-  Link, 
-  Route, 
-  Switch, 
-  BrowserRouter as Router 
-} from "react-router-dom";
+import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Home from "./users/containers/Home";
 import Users from "./users/containers/Users";
 import React from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Message from "./ui/Message";
 
 import { createStore, applyMiddleware } from 'redux';
 
@@ -24,7 +20,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  whitelist: ['ui', 'users']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -49,6 +46,7 @@ function App() {
                 <Switch>
                   <Route path="/" exact>
                     <Home />
+                    <Message />
                   </Route>
                   <Route>
                     <Users />

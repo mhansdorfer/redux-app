@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import UsersList from '../components/UsersList';
-import {loadUsers, resetUsers, addUser} from '../store';
+import { loadUsers } from '../store';
 import { useEffect } from 'react';
 
 function Users(props){
     const {isLoading, isError, usersList, error, loadUsers} = props;
 
-    useEffect(() => {
+    useEffect(() => { 
         if(!usersList || usersList.length === 0) loadUsers();
     }, []);
     
@@ -21,7 +21,7 @@ function Users(props){
     );
 }
 
-export function mapStateToProps(state){ //global app state
+export function mapStateToProps(state){ //state - global app state
     return {
         usersList: state.users.list,
         isLoading: state.users.isLoading,
@@ -30,11 +30,11 @@ export function mapStateToProps(state){ //global app state
     }
 }
 
-export const mapDispatchToProps = dispatch => ({
-    loadUsers: () => dispatch(loadUsers()),
-    resetUsers: () => dispatch(resetUsers()),
-    addUser: () => dispatch(addUser())
-});
+export function mapDispatchToProps(dispatch){
+    return {
+        loadUsers : () => dispatch(loadUsers())
+    }
+}
 
 export default connect(
     mapStateToProps,
